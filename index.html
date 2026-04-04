@@ -1,0 +1,324 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>To Do List</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        :root {
+            --page-bg: #0f172a;
+            --panel-bg: #111827;
+            --surface-bg: #1f2937;
+            --accent: #14b8a6;
+            --accent-strong: #0f766e;
+            --muted: #94a3b8;
+        }
+
+        body {
+            min-height: 100vh;
+            background: var(--page-bg);
+            color: #fff;
+        }
+
+        .page-shell {
+            min-height: 100vh;
+            padding: 2rem 1rem;
+        }
+
+        .sidebar-border {
+            border-top: 1px solid #334155;
+        }
+
+        @media (min-width: 992px) {
+            .sidebar-border {
+                border-top: 0;
+                border-left: 1px solid #334155;
+            }
+        }
+
+        .todo-card,
+        .todo-surface,
+        .stat-card {
+            background: var(--surface-bg);
+            border: 1px solid #334155;
+        }
+
+        .todo-panel {
+            background: var(--panel-bg);
+            border: 1px solid #334155;
+        }
+
+        .text-muted-soft {
+            color: var(--muted) !important;
+        }
+
+        .accent-badge {
+            color: var(--accent);
+            letter-spacing: 0.35em;
+        }
+
+        .btn-accent {
+            background: var(--accent);
+            border-color: var(--accent);
+            color: #08111f;
+            font-weight: 700;
+        }
+
+        .btn-accent:hover,
+        .btn-accent:focus {
+            background: var(--accent-strong);
+            border-color: var(--accent-strong);
+            color: #08111f;
+        }
+
+        .btn-outline-soft {
+            border-color: #475569;
+            color: #cbd5e1;
+        }
+
+        .btn-outline-soft:hover,
+        .btn-outline-soft:focus {
+            border-color: var(--accent);
+            color: #fff;
+            background: transparent;
+        }
+
+        .btn-active {
+            background: var(--accent);
+            border-color: var(--accent);
+            color: #08111f;
+        }
+
+        .task-item {
+            background: var(--surface-bg);
+            border: 1px solid #334155;
+            transition: border-color 0.2s ease, transform 0.2s ease;
+        }
+
+        .task-item:hover {
+            border-color: rgba(20, 184, 166, 0.6);
+            transform: translateY(-1px);
+        }
+
+        .check-dot {
+            width: 1.25rem;
+            height: 1.25rem;
+            border-radius: 999px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.65rem;
+            font-weight: 800;
+            color: #08111f;
+            background: var(--accent);
+            border: 2px solid var(--accent);
+            flex: 0 0 auto;
+        }
+
+        .empty-dot {
+            width: 1.25rem;
+            height: 1.25rem;
+            border-radius: 999px;
+            border: 2px solid #64748b;
+            flex: 0 0 auto;
+        }
+
+        .soft-input {
+            background: var(--panel-bg);
+            border: 1px solid #475569;
+            color: #fff;
+        }
+
+        .soft-input::placeholder {
+            color: #94a3b8;
+        }
+
+        .soft-input:focus {
+            background: var(--panel-bg);
+            color: #fff;
+            border-color: var(--accent);
+            box-shadow: 0 0 0 0.25rem rgba(20, 184, 166, 0.2);
+        }
+
+        .stack-gap {
+            gap: 1rem;
+        }
+    </style>
+</head>
+<body>
+    <main class="page-shell d-flex align-items-center">
+        <div class="container-lg">
+            <section class="todo-panel rounded-4 overflow-hidden shadow-lg">
+                <div class="row g-0 ">
+                    <div class="col-lg-8 p-4 p-md-5">
+                        <div class="d-flex flex-column flex-md-row justify-content-between align-items-md-start gap-3 mb-4">
+                            <div>
+                                <p class="accent-badge text-uppercase fw-semibold small mb-3">Task Manager</p>
+                                <h1 class="display-6 fw-bold mb-3">To Do List</h1>
+                                <p class="text-muted-soft mb-0" style="max-width: 42rem;">
+                                    Organize your day, keep track of what matters, and finish tasks with a clean focused workspace.
+                                </p>
+                            </div>
+                            <div class="todo-surface rounded-4 px-4 py-3 text-md-end d-none d-md-block">
+                                <div class="text-uppercase small text-muted-soft" style="letter-spacing: 0.3em;">Today</div>
+                                <div class="fs-5 fw-semibold mt-1" id="TaskCount">0 Task</div>
+                            </div>
+                        </div>
+
+                        <div class="todo-surface rounded-4 p-3 p-md-4">
+                            <div class="row g-3 align-items-center">
+                                <div class="alert alert-danger p-1 align-items-center" style="display: none;" id="cancelBar">
+                                    <div class="d-flex justify-content-between">Input cannot be empty <button class="btn" onclick="cancel()">X</button></div>
+                                </div>
+                                <div class="col-12 col-md">
+                                    <label class="mb-1 d-block text-muted-soft fw-semibold small text-uppercase" style="letter-spacing: 0.08em;">Task Title</label>
+                                    <input type="text" class="form-control form-control-lg soft-input rounded-4" id="taskInput" placeholder="Add a new task...">
+                                    <label class="mt-3 mb-1 d-block text-muted-soft fw-semibold small text-uppercase" style="letter-spacing: 0.08em;">Task Content</label>
+                                        <textarea
+                                        class="form-control form-control-lg soft-input rounded-4 mt-2"
+                                        id="taskContent"
+                                        rows="3"
+                                        placeholder="Add task details..."></textarea>
+                                <label class="mt-3 mb-1 d-block text-muted-soft fw-semibold small text-uppercase" style="letter-spacing: 0.08em;">Due Date</label>
+                                <input type="date" class="form-control form-control-lg soft-input rounded-4" id="taskDate">
+                                </div>
+                                <div class="col-12">
+                                    <button type="button" class="btn btn-accent btn-lg rounded-4 px-4 w-100" onclick="addTask()">Add Task</button>
+                                </div>
+                            </div>
+
+                            <div class="d-flex flex-wrap gap-2 mt-3">
+                                <button type="button" class="btn btn-active rounded-pill px-3 py-2 btn-sm fw-semibold text-uppercase" style="letter-spacing: 0.2em;" onclick="allTask()">All</button>
+                                <button type="button" class="btn btn-outline-soft rounded-pill px-3 py-2 btn-sm fw-semibold text-uppercase" style="letter-spacing: 0.2em;" onclick="activeTask()">Active</button>
+                                <button type="button" class="btn btn-outline-soft rounded-pill px-3 py-2 btn-sm fw-semibold text-uppercase" style="letter-spacing: 0.2em;" onclick="completeTask()">Completed</button>
+                            </div>
+                        </div>
+
+                        <div style="display: none;" id="emptyTask">
+                            <div class="d-grid stack-gap mt-4" id="taskSection">
+                                <!-- <div class="task-item rounded-4 p-3 p-md-4 d-flex align-items-center gap-3" >
+                                    <span class="check-dot" id="checkDot">✓</span>
+                                    <div class="flex-grow-1">
+                                        <h2 class="h6 mb-1 " style="text-decoration-color: #64748b;" id="taskSectionTitle"></h2>
+                                        <p class="small text-muted-soft mb-0" id="taskSectionContent"></p>
+                                        <p id="taskSectionDate"></p>
+                                    </div>
+                                    <button type="button" class="btn btn-outline-secondary btn-sm rounded-3 border-0" style="background:#0f172a;color:#cbd5e1;">Delete</button>
+                                </div> -->
+                            </div>
+                        </div> 
+
+                            <!-- <article class="task-item rounded-4 p-3 p-md-4 d-flex align-items-center gap-3">
+                                <span class="empty-dot"></span>
+                                <div class="flex-grow-1">
+                                    <h2 class="h6 mb-1">Study JavaScript DOM methods</h2>
+                                    <p class="small text-muted-soft mb-0">Due by 4:00 PM</p>
+                                </div>
+                                <button type="button" class="btn btn-outline-secondary btn-sm rounded-3 border-0" style="background:#0f172a;color:#cbd5e1;">Delete</button>
+                            </article> -->
+
+                            <!-- <article class="task-item rounded-4 p-3 p-md-4 d-flex align-items-center gap-3">
+                                <span class="empty-dot" id="emptyDot"></span>
+                                <div class="flex-grow-1">
+                                    <h2 class="h6 mb-1" id="taskTitle">Prepare assignment notes</h2>
+                                    <p class="small text-muted-soft mb-0" id="taskMessage">Focus session at 7:00 PM</p>
+                                </div>
+                                <button type="button" class="btn btn-outline-secondary btn-sm rounded-3 border-0" style="background:#0f172a;color:#cbd5e1;">Delete</button>
+                            </article> -->
+                    </div>
+                    <!-- ----------------sidebar section---------------- -->
+                    <div class="col-lg-4 sidebar-border p-4 p-md-5" style="background:#0b1220;">
+                        <div class="todo-surface rounded-4 p-4 h-100 ">
+                            <h2 class="h5 fw-semibold mb-2">Overview</h2>
+                            <p class="text-muted-soft small lh-lg mb-4">
+                                A clear snapshot of your progress helps you stay consistent without clutter.
+                            </p>
+
+                            <div class="row g-3">
+                                <div class="col-12 col-md-4 col-lg-12">
+                                    <div class="stat-card rounded-4 p-3">
+                                        <div class="small text-uppercase text-muted-soft" style="letter-spacing: 0.25em;" id="totalTask">Total</div>
+                                        <div class="fs-2 fw-bold mt-2" id="taskCount2">0</div>
+                                    </div>
+                                </div>
+                                <div class="col-12 col-md-4 col-lg-12">
+                                    <div class="stat-card rounded-4 p-3">
+                                        <div class="small text-uppercase text-muted-soft" style="letter-spacing: 0.25em;" id="activeTask">Active</div>
+                                        <div class="fs-2 fw-bold mt-2">8</div>
+                                    </div>
+                                </div>
+                                <div class="col-12 col-md-4 col-lg-12">
+                                    <div class="stat-card rounded-4 p-3">
+                                        <div class="small text-uppercase text-muted-soft" style="letter-spacing: 0.25em;" id="doneTask">Done</div>
+                                        <div class="fs-2 fw-bold mt-2">4</div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="todo-surface rounded-4 p-3 mt-4">
+                                <h3 class="h6 fw-semibold mb-3">Quick Tips</h3>
+                                <ul class="list-unstyled text-muted-soft small mb-0 d-grid gap-2">
+                                    <li>Break large tasks into smaller steps.</li>
+                                    <li>Mark items complete as soon as you finish them.</li>
+                                    <li>Keep the list short and actionable.</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </div>
+        <!-- Modal -->
+        <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content bg-dark">
+                <div class="modal-header">
+                    <h1 class="modal-title fs-5" id="exampleModalLabel" style="color: #14b8a6;">Delete Your Task</h1>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <p id="warning">Are you sure you want to delete</p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn" style="background-color: #14b8a6; color: white;" data-bs-dismiss="modal">Close</button>
+                    <button type="button" class="btn" style="background-color: #dc313b; color: white;" data-bs-dismiss="modal" onclick="delTask()">Delete</button>
+                </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Modal -->
+        <div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content bg-dark">
+                <div class="modal-header">
+                    <h1 class="modal-title fs-5" id="staticBackdropLabel">Modal title</h1>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="col-12 col-md">
+                            <label class="mb-1 d-block text-muted-soft fw-semibold small text-uppercase" style="letter-spacing: 0.08em;">Task Title</label>
+                            <input type="text" class="form-control form-control-lg soft-input rounded-4" id="editTaskInput" placeholder="Add a new task...">
+                            <label class="mt-3 mb-1 d-block text-muted-soft fw-semibold small text-uppercase" style="letter-spacing: 0.08em;">Task Content</label>
+                                <textarea
+                                class="form-control form-control-lg soft-input rounded-4 mt-2"
+                                id="editTaskContent"
+                                rows="3"
+                                placeholder="Add task details..."></textarea>
+                        <label class="mt-3 mb-1 d-block text-muted-soft fw-semibold small text-uppercase" style="letter-spacing: 0.08em;">Due Date</label>
+                        <input type="date" class="form-control form-control-lg soft-input rounded-4" id="editTaskDate">
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-primary" data-bs-dismiss="modal" onclick="confirmTask()">Understood</button>
+                </div>
+                </div>
+            </div>
+        </div>
+    </main>
+    <script src="/index.js" ></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js" integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI" crossorigin="anonymous"></script>
+</body>
+</html>
