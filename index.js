@@ -17,7 +17,7 @@ const addTask = () => {
             date: taskDate
         };
         allTasks.push(taskOBJ)
-        console.log(allTasks);
+        // console.log(allTasks);
         document.getElementById('taskInput').value = ''
         document.getElementById('taskContent').value =''
         document.getElementById('taskDate').value=''
@@ -33,7 +33,7 @@ const delTask = (i) => {
     const warning = document.getElementById('warning')
     if(warning){
         allTasks.splice(i,1)
-        console.log(allTasks);
+        // console.log(allTasks);
         showTask()
     } else{
         showTask()
@@ -56,7 +56,7 @@ const confirmTask = () => {
     };
     if (editTaskOBJInput){
         allTasks.splice(editIndex,1,editTaskOBJInput)
-        console.log(allTasks);
+        // console.log(allTasks);
         showTask()
         document.getElementById('editTaskInput').value = ''
         document.getElementById('editTaskContent').value = ''
@@ -106,7 +106,7 @@ const toggleMark = (i) => {
     }
 
     allTasks[i].isActive = !allTasks[i].isActive;
-    console.log("Task Status:", allTasks[i].isActive);
+    // console.log("Task Status:", allTasks[i].isActive);
 
     showTask(); // re-render
 };
@@ -135,7 +135,7 @@ function showTask() {
     // taskSectionTitle.innerHTML=''
     // taskSectionDate.innerHTML=''
     const checkDot = () => {
-        console.log(checkDot);
+        // console.log(checkDot);
     }
     for(i=0; i < allTasks.length; i++) {
         const tasks = allTasks[i]
