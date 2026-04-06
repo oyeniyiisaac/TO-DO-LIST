@@ -167,13 +167,6 @@ function showTask() {
 
 }
 
-// const activeTask = () => {
-//     console.log('active');
-//     // emptyTask.style.display="block"
-//     if(activeTask){
-//         showTask===''
-//     }
-// }
 
 // const activeTask = () => {
 //     console.log('active');
