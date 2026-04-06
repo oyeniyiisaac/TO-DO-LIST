@@ -77,23 +77,23 @@ const applyMarkStyles = () => {
         } else {
             markBtn.style.backgroundColor = "#198754"; // green
             markBtn.style.color = "#fff";
-            const tasks = allTasks[i];
-            taskSection.innerHTML += `
-            <div class="task-item card shadow-sm border-1 rounded-4 p-3 mb-3">
-                <div class="d-flex justify-content-between align-items-center mb2 gap-3" class="task-dot">
-                    <div class="flex-grow-1">
-                        <p class="h6 mb-0 fw-bold" style="color: #14b8a6; font-size: 22px;">${tasks.title}</p>
-                        <p class="mb-0" style="color: #ffffff;">${tasks.content}</p>
-                    </div>
-                    <div class="d-flex flex-column align-items-end">
-                        <span class="badge bg-light border mb-2" style="color: #042924;">${tasks.date}</span>
-                        <div class="d-flex gap-3">
-                        <button class="btn btn-sm btn-outline-danger" onclick="confirmDel(${i})" data-bs-toggle="modal" data-bs-target="#exampleModal">Delete</button><button class="btn btn-sm btn-outline-danger" onclick="confirmEdit(${i})" data-bs-toggle="modal" data-bs-target="#staticBackdrop">Edit</button>
+            // const tasks = allTasks[i];
+            // taskSection.innerHTML += `
+            // <div class="task-item card shadow-sm border-1 rounded-4 p-3 mb-3">
+            //     <div class="d-flex justify-content-between align-items-center mb2 gap-3" class="task-dot">
+            //         <div class="flex-grow-1">
+            //             <p class="h6 mb-0 fw-bold" style="color: #14b8a6; font-size: 22px;">${tasks.title}</p>
+            //             <p class="mb-0" style="color: #ffffff;">${tasks.content}</p>
+            //         </div>
+            //         <div class="d-flex flex-column align-items-end">
+            //             <span class="badge bg-light border mb-2" style="color: #042924;">${tasks.date}</span>
+            //             <div class="d-flex gap-3">
+            //             <button class="btn btn-sm btn-outline-danger" onclick="confirmDel(${i})" data-bs-toggle="modal" data-bs-target="#exampleModal">Delete</button><button class="btn btn-sm btn-outline-danger" onclick="confirmEdit(${i})" data-bs-toggle="modal" data-bs-target="#staticBackdrop">Edit</button>
                         
-                        </div>
-                    </div>
-                </div>
-            </div>`;
+            //             </div>
+            //         </div>
+            //     </div>
+            // </div>`;
         }
     }
 };
