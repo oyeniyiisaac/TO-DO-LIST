@@ -152,7 +152,7 @@ function showTask() {
                 <div class="d-flex flex-column align-items-end">
                     <span class="badge bg-light border mb-2" style="color: #042924;">${tasks.date}</span>
                     <div class="d-flex gap-3">
-                    <button class="btn btn-sm btn-outline-danger" onclick="confirmDel(${i})" data-bs-toggle="modal" data-bs-target="#exampleModal">Delete</button><button class="btn btn-sm btn-outline-danger" onclick="confirmEdit(${i})" data-bs-toggle="modal" data-bs-target="#staticBackdrop">Edit</button>
+                    <button class="btn btn-sm btn-outline-danger" onclick="confirmDel(${i})" data-bs-toggle="modal" data-bs-target="#exampleModal">Delete</button><button class="btn btn-sm btn-outline-secondary" onclick="confirmEdit(${i})" data-bs-toggle="modal" data-bs-target="#staticBackdrop">Edit</button>
                     <button class="btn btn-sm btn-outline-secondary" style="background-color: dark; " onclick="toggleMark(${i})" >Mark</button>
                     </div>
                 </div>
