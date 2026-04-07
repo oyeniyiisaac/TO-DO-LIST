@@ -6,7 +6,6 @@ const addTask = () => {
     const taskInput = document.getElementById('taskInput').value
     const taskContent = document.getElementById('taskContent').value
     const taskDate = document.getElementById('taskDate').value
-    // const taskSection = document.getElementById('taskSection')
     if(taskInput.trim(),taskContent.trim(),taskDate== ''){
         cancelBar.style.display="block"
     } else {
@@ -17,7 +16,7 @@ const addTask = () => {
             date: taskDate
         };
         allTasks.push(taskOBJ)
-        // console.log(allTasks);
+        console.log(allTasks);
         document.getElementById('taskInput').value = ''
         document.getElementById('taskContent').value =''
         document.getElementById('taskDate').value=''
@@ -131,17 +130,8 @@ const taskSectionDate = document.getElementById('taskSectionDate');
 function showTask() {
     emptyTask.style.display="block"
     taskSection.innerHTML = ''
-    // taskSectionContent.innerHTML=''
-    // taskSectionTitle.innerHTML=''
-    // taskSectionDate.innerHTML=''
-    const checkDot = () => {
-        // console.log(checkDot);
-    }
     for(i=0; i < allTasks.length; i++) {
         const tasks = allTasks[i]
-        // taskSectionTitle.innerHTML += `<div>${tasks.title}</div>`
-        // taskSectionContent.innerHTML += `<div>${tasks.content}</div>`
-        // taskSectionDate.innerHTML += `<p>${tasks.date}</p>`
         taskSection.innerHTML += `
         <div class="task-item card shadow-sm border-1 rounded-4 p-3 mb-3">
             <div class="d-flex flex-column flex-sm-row justify-content-between align-items-start align-items-sm-center gap-3">
@@ -163,29 +153,4 @@ function showTask() {
     }
     TaskCount.innerHTML =  allTasks.length === 1 ? `${allTasks.length} Task` : `${allTasks.length} Tasks`;
     taskCount2.innerHTML = allTasks.length
-    // const checkDot = document.getElementById('checkDot'); // Or your specific selector
-    
-
 }
-
-
-// const activeTask = () => {
-//     console.log('active');
-//     const activeBtn = document.querySelector('[onclick="activeTask()"]');
-//     const allBtn =
-//         document.querySelector('[onclick="allTask()"]') ||
-//         document.querySelector('[onclick="showTask()"]');
-
-//     if (!activeBtn || !allBtn) return;
-
-//     // Copy All Task button background/text style to Active Task
-//     const allBtnStyle = getComputedStyle(allBtn);
-//     activeBtn.style.backgroundColor = allBtnStyle.backgroundColor;
-//     activeBtn.style.color = allBtnStyle.color;
-//     activeBtn.style.borderColor = allBtnStyle.borderColor;
-
-//     // Remove background from All Task button
-//     allBtn.style.backgroundColor = "transparent";
-//     allBtn.style.color = "";
-//     allBtn.style.borderColor = "";
-// }
