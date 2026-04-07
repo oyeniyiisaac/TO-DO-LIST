@@ -144,18 +144,19 @@ function showTask() {
         // taskSectionDate.innerHTML += `<p>${tasks.date}</p>`
         taskSection.innerHTML += `
         <div class="task-item card shadow-sm border-1 rounded-4 p-3 mb-3">
-            <div class="d-flex justify-content-between align-items-center mb2 gap-3" class="task-dot">
-                <div class="flex-grow-1">
-                    <p class="h6 mb-0 fw-bold" style="color: #14b8a6; font-size: 22px;">${tasks.title}</p>
-                    <p class="mb-0" style="color: #ffffff;">${tasks.content}</p>
+            <div class="d-flex flex-column flex-sm-row justify-content-between align-items-start align-items-sm-center gap-3">
+            <div class="flex-grow-1 w-100">
+                <p class="h6 mb-1 fw-bold text-break" style="color: #14b8a6; font-size: clamp(18px, 4vw, 22px);">${tasks.title}</p>
+                <p class="mb-0 text-break" style="color: #ffffff; font-size: clamp(14px, 3.5vw, 16px);">${tasks.content}</p>
+            </div>
+            <div class="d-flex flex-column align-items-start align-items-sm-end w-100 w-sm-auto">
+                <span class="badge bg-light border mb-2 text-break" style="color: #042924;">${tasks.date}</span>
+                <div class="d-flex flex-wrap gap-2 w-100 justify-content-start justify-content-sm-end">
+                <button class="btn btn-sm btn-outline-danger flex-fill flex-sm-grow-0" onclick="confirmDel(${i})" data-bs-toggle="modal" data-bs-target="#exampleModal">Delete</button>
+                <button class="btn btn-sm btn-outline-secondary flex-fill flex-sm-grow-0" onclick="confirmEdit(${i})" data-bs-toggle="modal" data-bs-target="#staticBackdrop">Edit</button>
+                <button class="btn btn-sm btn-outline-secondary flex-fill flex-sm-grow-0" style="background-color: dark;" onclick="toggleMark(${i})">Mark</button>
                 </div>
-                <div class="d-flex flex-column align-items-end">
-                    <span class="badge bg-light border mb-2" style="color: #042924;">${tasks.date}</span>
-                    <div class="d-flex gap-3">
-                    <button class="btn btn-sm btn-outline-danger" onclick="confirmDel(${i})" data-bs-toggle="modal" data-bs-target="#exampleModal">Delete</button><button class="btn btn-sm btn-outline-secondary" onclick="confirmEdit(${i})" data-bs-toggle="modal" data-bs-target="#staticBackdrop">Edit</button>
-                    <button class="btn btn-sm btn-outline-secondary" style="background-color: dark; " onclick="toggleMark(${i})" >Mark</button>
-                    </div>
-                </div>
+            </div>
             </div>
         </div>`;
         applyMarkStyles()===''
