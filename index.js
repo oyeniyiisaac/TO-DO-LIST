@@ -1,6 +1,25 @@
 allTasks = []
 // activeTask = []
 let editIndex;
+let currentFilter = 'all';
+
+const setFilter = (filter) => {
+    currentFilter = filter;
+
+    document.getElementById('btnAll').className = 'btn btn-outline-soft rounded-pill px-3 py-2 btn-sm fw-semibold text-uppercase';
+    document.getElementById('btnActive').className = 'btn btn-outline-soft rounded-pill px-3 py-2 btn-sm fw-semibold text-uppercase';
+    document.getElementById('btnCompleted').className = 'btn btn-outline-soft rounded-pill px-3 py-2 btn-sm fw-semibold text-uppercase';
+
+    if (filter === 'all') {
+        document.getElementById('btnAll').className = 'btn btn-active rounded-pill px-3 py-2 btn-sm fw-semibold text-uppercase';
+    } else if (filter === 'active') {
+        document.getElementById('btnActive').className = 'btn btn-active rounded-pill px-3 py-2 btn-sm fw-semibold text-uppercase';
+    } else if (filter === 'completed') {
+        document.getElementById('btnCompleted').className = 'btn btn-active rounded-pill px-3 py-2 btn-sm fw-semibold text-uppercase';
+    }
+
+    showTask();
+};
 let deleteIndex;
 const addTask = () => {
     const taskInput = document.getElementById('taskInput').value
@@ -13,7 +32,8 @@ const addTask = () => {
         const taskOBJ = {
             title: taskInput,
             content: taskContent,
-            date: taskDate
+            date: taskDate,
+            isActive: true
         };
         allTasks.push(taskOBJ)
         console.log(allTasks);
@@ -51,7 +71,8 @@ const confirmTask = () => {
     const editTaskOBJInput = {
         title: editTaskInput,
         content: editTaskContent,
-        date: editTaskDate
+        date: editTaskDate,
+        isActive: allTasks[editIndex].isActive !== undefined ? allTasks[editIndex].isActive : true
     };
     if (editTaskOBJInput){
         allTasks.splice(editIndex,1,editTaskOBJInput)
@@ -130,8 +151,26 @@ const taskSectionDate = document.getElementById('taskSectionDate');
 function showTask() {
     emptyTask.style.display="block"
     taskSection.innerHTML = ''
+
+    let activeCount = 0;
+    let doneCount = 0;
+
     for(i=0; i < allTasks.length; i++) {
         const tasks = allTasks[i]
+
+        if (tasks.isActive !== false) {
+            activeCount++;
+        } else {
+            doneCount++;
+        }
+
+        if (currentFilter === 'active' && tasks.isActive === false) {
+            continue;
+        }
+        if (currentFilter === 'completed' && tasks.isActive !== false) {
+            continue;
+        }
+
         taskSection.innerHTML += `
         <div class="task-item card shadow-sm border-1 rounded-4 p-3 mb-3">
             <div class="d-flex flex-column flex-sm-row justify-content-between align-items-start align-items-sm-center gap-3">
@@ -149,8 +188,20 @@ function showTask() {
             </div>
             </div>
         </div>`;
-        applyMarkStyles()===''
     }
-    TaskCount.innerHTML =  allTasks.length === 1 ? `${allTasks.length} Task` : `${allTasks.length} Tasks`;
-    taskCount2.innerHTML = allTasks.length
+
+    applyMarkStyles();
+
+    if (document.getElementById('TaskCount')) {
+        document.getElementById('TaskCount').innerHTML =  allTasks.length === 1 ? `${allTasks.length} Task` : `${allTasks.length} Tasks`;
+    }
+    if (document.getElementById('taskCount2')) {
+        document.getElementById('taskCount2').innerHTML = allTasks.length;
+    }
+    if (document.getElementById('activeTaskCount')) {
+        document.getElementById('activeTaskCount').innerHTML = activeCount;
+    }
+    if (document.getElementById('doneTaskCount')) {
+        document.getElementById('doneTaskCount').innerHTML = doneCount;
+    }
 }

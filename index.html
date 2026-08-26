@@ -189,9 +189,9 @@
                             </div>
 
                             <div class="d-flex flex-wrap gap-2 mt-3">
-                                <button type="button" class="btn btn-active rounded-pill px-3 py-2 btn-sm fw-semibold text-uppercase" style="letter-spacing: 0.2em;" onclick="showTask()">All</button>
-                                <button type="button" class="btn btn-outline-soft rounded-pill px-3 py-2 btn-sm fw-semibold text-uppercase" style="letter-spacing: 0.2em;" onclick="applyMarkStyles()">Active</button>
-                                <button type="button" class="btn btn-outline-soft rounded-pill px-3 py-2 btn-sm fw-semibold text-uppercase" style="letter-spacing: 0.2em;" onclick="completeTask()">Completed</button>
+                                <button type="button" id="btnAll" class="btn btn-active rounded-pill px-3 py-2 btn-sm fw-semibold text-uppercase" style="letter-spacing: 0.2em;" onclick="setFilter('all')">All</button>
+                                <button type="button" id="btnActive" class="btn btn-outline-soft rounded-pill px-3 py-2 btn-sm fw-semibold text-uppercase" style="letter-spacing: 0.2em;" onclick="setFilter('active')">Active</button>
+                                <button type="button" id="btnCompleted" class="btn btn-outline-soft rounded-pill px-3 py-2 btn-sm fw-semibold text-uppercase" style="letter-spacing: 0.2em;" onclick="setFilter('completed')">Completed</button>
                             </div>
                         </div>
 
@@ -245,13 +245,13 @@
                                 <div class="col-12 col-md-4 col-lg-12">
                                     <div class="stat-card rounded-4 p-3">
                                         <div class="small text-uppercase text-muted-soft" style="letter-spacing: 0.25em;" id="activeTask">Active</div>
-                                        <div class="fs-2 fw-bold mt-2">8</div>
+                                        <div class="fs-2 fw-bold mt-2" id="activeTaskCount">0</div>
                                     </div>
                                 </div>
                                 <div class="col-12 col-md-4 col-lg-12">
                                     <div class="stat-card rounded-4 p-3">
                                         <div class="small text-uppercase text-muted-soft" style="letter-spacing: 0.25em;" id="doneTask">Done</div>
-                                        <div class="fs-2 fw-bold mt-2">4</div>
+                                        <div class="fs-2 fw-bold mt-2" id="doneTaskCount">0</div>
                                     </div>
                                 </div>
                             </div>
